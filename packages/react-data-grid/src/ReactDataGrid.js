@@ -11,6 +11,7 @@ const RowUtils = require('./RowUtils');
 const ColumnUtils = require('./ColumnUtils');
 const KeyCodes = require('./KeyCodes');
 import AppConstants from './AppConstants';
+import { DEFINE_SORT } from './cells/headerCells/SortableHeaderCell';
 require('../../../themes/react-data-grid-core.css');
 require('../../../themes/react-data-grid-checkbox.css');
 
@@ -67,6 +68,8 @@ const ReactDataGrid = React.createClass({
     onCellsDragged: React.PropTypes.func,
     onAddFilter: React.PropTypes.func,
     onGridSort: React.PropTypes.func,
+    sortColumn: React.PropTypes.string,
+    sortDirection: React.PropTypes.oneOf(Object.keys(DEFINE_SORT)),
     onDragHandleDoubleClick: React.PropTypes.func,
     onGridRowsUpdated: React.PropTypes.func,
     onRowSelect: React.PropTypes.func,
@@ -141,6 +144,10 @@ const ReactDataGrid = React.createClass({
       initialState.selected = {rowIdx: 0, idx: 0};
     } else {
       initialState.selected = {rowIdx: -1, idx: -1};
+    }
+    if (this.props.sortColumn && this.props.sortDirection) {
+      initialState.sortColumn = this.props.sortColumn;
+      initialState.sortDirection = this.props.sortDirection;
     }
     return initialState;
   },
